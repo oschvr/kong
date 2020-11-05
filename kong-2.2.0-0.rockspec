@@ -55,6 +55,7 @@ build = {
   modules = {
     ["kong"] = "kong/init.lua",
     ["kong.meta"] = "kong/meta.lua",
+    ["kong.async"] = "kong/async.lua",
     ["kong.cache"] = "kong/cache.lua",
     ["kong.global"] = "kong/global.lua",
     ["kong.router"] = "kong/router.lua",

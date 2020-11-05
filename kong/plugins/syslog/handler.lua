@@ -3,8 +3,6 @@ local cjson = require "cjson"
 
 
 local kong = kong
-local ngx = ngx
-local timer_at = ngx.timer.at
 local upper = string.upper
 
 
@@ -54,9 +52,9 @@ local SysLogHandler = {
 
 function SysLogHandler:log(conf)
   local message = kong.log.serialize()
-  local ok, err = timer_at(0, log, conf, message)
+  local ok, err = kong.async:run(log, conf, message)
   if not ok then
-    kong.log.err("failed to create timer: ", err)
+    kong.log.err(err)
   end
 end
 

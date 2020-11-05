@@ -1,5 +1,8 @@
 local policies = require "kong.plugins.response-ratelimiting.policies"
+
+
 local pairs = pairs
+local kong = kong
 
 
 local _M = {}
@@ -20,9 +23,9 @@ end
 
 
 function _M.execute(conf, identifier, current_timestamp, increments, usage)
-  local ok, err = ngx.timer.at(0, log, conf, identifier, current_timestamp, increments, usage)
+  local ok, err = kong.async:run(log, conf, identifier, current_timestamp, increments, usage)
   if not ok then
-    kong.log.err("failed to create timer: ", err)
+    kong.log.err(err)
   end
 end
 

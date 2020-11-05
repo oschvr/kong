@@ -69,6 +69,7 @@ local DB = require "kong.db"
 local dns = require "kong.tools.dns"
 local meta = require "kong.meta"
 local lapis = require "lapis"
+local async = require "kong.async"
 local runloop = require "kong.runloop.handler"
 local clustering = require "kong.clustering"
 local singletons = require "kong.singletons"
@@ -497,6 +498,10 @@ function Kong.init_worker()
   -- Must only be called in the init or init_worker phases, to avoid
   -- duplicated seeds.
   math.randomseed()
+
+
+  kong.async = async.new()
+  kong.async:init_worker()
 
 
   -- init DB

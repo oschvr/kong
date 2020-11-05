@@ -3,7 +3,6 @@ local cjson = require "cjson"
 
 local kong = kong
 local ngx = ngx
-local timer_at = ngx.timer.at
 local udp = ngx.socket.udp
 
 
@@ -43,9 +42,9 @@ local UdpLogHandler = {
 
 
 function UdpLogHandler:log(conf)
-  local ok, err = timer_at(0, log, conf, cjson.encode(kong.log.serialize()))
+  local ok, err = kong.async:run(log, conf, cjson.encode(kong.log.serialize()))
   if not ok then
-    kong.log.err("could not create timer: ", err)
+    kong.log.err(err)
   end
 end
 
